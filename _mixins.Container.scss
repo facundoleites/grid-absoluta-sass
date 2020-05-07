@@ -1,0 +1,22 @@
+@import './breakpoints';
+@import './functions';
+
+@mixin containerAparelho($aparelho){
+    @media screen and (min-width: breakpointInfo($aparelho,tamanhoMinimo)){
+        font-size: breakpointInfo($aparelho,fontSize);
+        line-height: breakpointInfo($aparelho,lineHeight);
+        column-gap: breakpointInfo($aparelho,espacoColunas);
+        row-gap: breakpointInfo($aparelho,lineHeight);
+        grid-template-columns: repeat(breakpointInfo($aparelho,quantidadeColunas),breakpointInfo($aparelho,quantidadeColunas)*1fr);
+        //caso houver dois containers contiguos o segundo deles irá ter um margin igual à altura da linha
+        & + &{
+            margin-top: breakpointInfo($aparelho,lineHeight);
+        }
+    }
+}
+
+@mixin gerarContainers(){
+    @each $nomeAparelho,$infoAparelho in $breakpoints{
+        @include containerAparelho($nomeAparelho);
+    }
+}

@@ -1,0 +1,12 @@
+@import './mixins.Container';
+.Grid{
+    &Container{
+        box-sizing: border-box;
+        display: grid;
+        width: 100%;
+        max-width: 100%;
+        position: relative;
+        overflow: hidden;
+        @include gerarContainers();
+    }
+}

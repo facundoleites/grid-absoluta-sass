@@ -1,0 +1,80 @@
+@import './breakpoints';
+@import './functions';
+
+@mixin colunasTamanho($quantidade-colunas-mixin){
+    &Tamanho{
+        //geramos todas as classes de tamanho das colunas
+        @for $i from 1 through $quantidade-colunas-mixin{
+            &#{$i}{
+                grid-column-end: span $i;
+            }
+        }
+    }
+}
+@mixin colunasOffset($quantidade-colunas-mixin){
+    &Offset{
+        &Auto{
+            //por padrão as colunas estão no valor auto - o valor 0 irá forçar o quebre de linha
+            grid-column-start: auto;
+        }
+        //geramos as classes de todos os offsets possiveis deste aparelho
+        @for $i from 0 through $quantidade-colunas-mixin - 1{
+            &#{$i}{
+                grid-column-start: $i + 1;
+            }
+        }
+    }
+}
+@mixin colunas($quantidadeColunas){
+    //mixin auxiliar que inclui os mixins das colunas
+    @include colunasTamanho($quantidadeColunas);
+    @include colunasOffset($quantidadeColunas);
+}
+
+@mixin gerarColunasDoAparelho($aparelho){
+    @media screen and (min-width:breakpointInfo($aparelho,tamanhoMinimo)){
+        //criamos a classe deste aparelho
+        &#{$aparelho}{
+            @include colunas(breakpointInfo($aparelho,quantidadeColunas));
+            //adicionamos as subclasses estaticas
+            &Alinhar{
+                &Esquerda{
+                    justify-self: start;
+                }
+                &Direita{
+                    justify-self: end;
+                }
+                &Centro{
+                    justify-self: center;
+                }
+                &Padrao{
+                    justify-self: stretch;
+                }
+            }
+            &AlinharV{
+                &Superior{
+                    align-self: start;
+                }
+                &Texto{
+                    align-self: baseline;
+                }
+                &Inferior{
+                    align-self: end;
+                }
+                &Centro{
+                    align-self: center;
+                }
+                &Padrao{
+                    align-self: stretch;
+                }
+            }
+        }
+    }
+}
+
+@mixin gerarColunas(){
+    //por cada aparelho dos breakpoints gerar os estilos das colunas
+    @each $nomeAparelho,$infoAparelho in $breakpoints{
+        @include gerarColunasDoAparelho($nomeAparelho);
+    }
+}

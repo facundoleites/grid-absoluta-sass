@@ -1,0 +1,8 @@
+@import './breakpoints.scss';
+@function trazerBreakpoint($aparelho){
+    @return map-get($breakpoints, $aparelho)
+};
+
+@function breakpointInfo($aparelho,$propriedade){
+    @return map-get(trazerBreakpoint($aparelho),$propriedade);
+}

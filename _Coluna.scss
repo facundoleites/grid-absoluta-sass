@@ -1,0 +1,6 @@
+@import './mixins.Coluna';
+.Grid{
+    &Coluna{
+        @include gerarColunas()
+    }
+}

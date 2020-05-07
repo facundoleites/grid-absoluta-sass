@@ -1,0 +1,9 @@
+@import './mixins.Grid';
+.Grid{
+    display: block;
+    margin:0 auto;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    @include gerarGrids();    
+}

@@ -1,0 +1,24 @@
+@import './functions.scss';
+@import './breakpoints.scss';
+@mixin gridAparelho($aparelho){
+    @media screen and (min-width: breakpointInfo($aparelho,tamanhoMinimo)){
+        max-width: calc(100% - #{breakpointInfo($aparelho,margem)});
+        & + &{
+            //caso houver dois grids contiguos o segundo deles irá ter um margin igual à altura da linha
+            margin-top: breakpointInfo($aparelho,lineHeight);
+        }
+    }
+    @if breakpointInfo($aparelho,tamanhoMaximo){
+        //se o breakpoint tiver um tamanho maximo definido criamos um pseudo-breakpoint para limitar o tamanho do grid
+        @media screen and (min-width: breakpointInfo($aparelho,tamanhoMinimo) + breakpointInfo($aparelho,margem)){
+            max-width: breakpointInfo($aparelho,tamanhoMaximo);
+        }
+    }
+}
+
+@mixin gerarGrids(){
+    //por cada aparelho dos breakpoints gerar os estilos do grid
+    @each $nomeAparelho,$infoAparelho in $breakpoints{
+        @include gridAparelho($nomeAparelho);
+    }
+}
